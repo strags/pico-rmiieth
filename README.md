@@ -110,11 +110,9 @@ The LAN8720 module is capable of being assigned 32 different addresses. The defa
         int             pkt_length;
         if( rmiieth_rx_get_packet( cfg, &pkt_data, &pkt_length ) )
         {
-
-extern void rmiieth_poll( rmiieth_config* cfg );
-extern bool rmiieth_rx_packet_available( rmiieth_config* cfg );
-extern bool rmiieth_rx_get_packet( rmiieth_config* cfg, uint8_t** pkt, int* length );
-extern void rmiieth_rx_consume_packet( rmiieth_config* cfg );
-extern bool rmiieth_tx_alloc_packet( rmiieth_config* cfg, int length, uint8_t** data );
-extern bool rmiieth_tx_commit_packet( rmiieth_config* cfg, int length );
+            // process the packet
+            rmiieth_rx_consume_packet( cfg );
+        }
+    }
+```
 
