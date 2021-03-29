@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"irq.h": "c",
+			"etharp.h": "c",
+			"sem.h": "c",
+			"lock_core.h": "c",
+			"pio.pio.h": "c",
+			"assert.h": "c"
+		}
+	}
+}

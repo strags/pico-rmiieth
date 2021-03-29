@@ -1,0 +1,91 @@
+/*
+ * (c) 2021 Ben Stragnell
+ */
+
+;----------------------------------------------------------------------------------------------------
+;
+; clk receiver
+;
+; just fire an IRQ a (hopefully) fixed number of clocks after a falling edge
+;
+; at 250MHz, each half-cycle should last 2.5 clocks? oof!
+;
+;----------------------------------------------------------------------------------------------------
+
+.program clk
+.wrap_target
+        wait    0 pin 0
+        irq     4
+        wait    1 pin 0
+        irq     5
+.wrap
+
+;----------------------------------------------------------------------------------------------------
+;
+; rx
+;
+; wait for a data-valid signal, clock in 2 bits at a time until the data-valid signal goes low,
+; then clock some extra bits to ensure we flush the whole packet.
+;
+;----------------------------------------------------------------------------------------------------
+
+.program rx
+
+        ; when this finishes, we'll flush 32 more bits of data
+        ; to hopefully ensure we got everything...
+        set     x, 31
+
+        ; wait for data-valid
+        wait 1 pin 2
+
+        ; main loop
+rx_loop:
+        wait    1 irq 5
+        in      pins,   2
+        jmp     pin rx_loop                     ; loop as long as rx-valid is set
+
+post_loop:
+        wait    1 irq 5
+        in      pins,   2
+        jmp     x--, post_loop
+
+        ; signal the CPU and stop
+        irq     0
+halt:   jmp     halt
+
+;----------------------------------------------------------------------------------------------------
+;
+; tx
+;
+; raise tx_en, clock out 2 bits until we're done
+;
+;----------------------------------------------------------------------------------------------------
+
+.program tx
+.side_set 1 opt
+.wrap_target
+        nop     side 0                          ; ensure TX_EN is low
+        out     x, 32                           ; read # of bit-pairs to send
+        out     y, 32                           ; read # of padding bytes
+
+        wait    1 irq 5
+        wait    1 irq 5
+
+tx_loop:
+        wait    1 irq 5
+        out     pins, 2         side 1          ; clock out bits, ensure TX_EN is high
+        jmp     x--, tx_loop
+
+        wait    1 irq 5
+        set     pins, 0         side 0          ; ensure TX_EN is low
+
+        ; discard padding bytes
+flush_loop:
+        out     x, 8
+        jmp     y-- flush_loop
+.wrap
+
+
+
+
+
