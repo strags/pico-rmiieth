@@ -36,7 +36,10 @@
         set     x, 31
 
         ; wait for data-valid
-        wait 1 pin 2
+        ; wait 1 pin 2    ; this only works if rx0, rx1 and rx_valid are contiguous
+wait_loop:
+        jmp     pin, rx_loop
+        jmp     wait_loop        
 
         ; main loop
 rx_loop:

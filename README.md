@@ -84,6 +84,9 @@ If you wish, you can pass in pre-allocated buffers for the packet queues, or you
 The LAN8720 module is capable of being assigned 32 different addresses. The default on my module appears to be 1. However, you can also call ```rmiieth_probe``` to try and auto-discover the address of the attached device (by reading MD status registers).
 
 
+
+
+
 2. Call ```rmiieth_init``` with the prepared config.
 
 
