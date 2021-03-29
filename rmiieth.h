@@ -14,25 +14,25 @@
 typedef struct
 {
     // initial config
-    PIO             pio;
-    int             pin_mdc;
-    int             pin_mdio;
-    int             sleep_us;
-    uint32_t        phy_addr;
-    int             pin_clk;
-    int             pin_tx_base;
-    int             pin_tx_valid;
-    int             pin_rx_base;
-    int             pin_rx_valid;
-    int             rx_dma_chan;
-    int             tx_dma_chan;
-    int             rx_lock_id;
+    PIO             pio;                                    // which PIO to use
+    int             pin_mdc;                                // MD clock pin
+    int             pin_mdio;                               // MD data pin
+    int             sleep_us;                               // time to sleep between MD bits
+    uint32_t        phy_addr;                               // phy_addr - or use rmiieth_probe() to auto-probe
+    int             pin_clk;                                // refclk input pin
+    int             pin_tx_base;                            // TX0 (TX1 must be adjacent)
+    int             pin_tx_valid;                           // TX_EN
+    int             pin_rx_base;                            // RX0 (RX1 must be adjacent)
+    int             pin_rx_valid;                           // CRS
+    int             rx_dma_chan;                            // RX dma channel id
+    int             tx_dma_chan;                            // TX dma channel id
+    int             rx_lock_id;                             // spinlock id - leave as -1 to auto-allocate
     uint8_t*        rx_queue_buffer;                        // either pass in a buffer, or NULL to have rmiieth_init() malloc one
     int32_t         rx_queue_buffer_size;                   // RX queue size
     uint8_t*        tx_queue_buffer;                        // either pass in a buffer, or NULL to have rmiieth_init() malloc one
     int32_t         tx_queue_buffer_size;                   // TX queue size
-    int             rx_irq;                                 // use either 0 or 1 (this refers to the CPU's IRQ - the PIO always uses irq 0)
-    int             mtu;
+    int             rx_irq;                                 // RX IRQ number
+    int             mtu;                                    // max packet size
 
     // state
     uint8_t         clk_offset;

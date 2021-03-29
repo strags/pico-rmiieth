@@ -11,7 +11,8 @@
 			"sem.h": "c",
 			"lock_core.h": "c",
 			"pio.pio.h": "c",
-			"assert.h": "c"
+			"assert.h": "c",
+			"dma.h": "c"
 		}
 	}
 }
