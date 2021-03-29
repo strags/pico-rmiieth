@@ -14,7 +14,6 @@ static uint32_t g_grc_table[] =
     0xD6D930AC, 0xCB6E20C8, 0xEDB71064, 0xF0000000
 };
 
-// TODO: we don't need to check every bit position, since we receive 2 bits at a time
 bool pkt_remove_preamble( uint8_t* pkt, int* pkt_len_ptr )
 {
     int                 len = *pkt_len_ptr;
@@ -24,7 +23,7 @@ bool pkt_remove_preamble( uint8_t* pkt, int* pkt_len_ptr )
     {
         uint8_t     byte;
         byte = pkt[ i ];
-        for( int j = 0; j < 8 ; j++ )
+        for( int j = 0; j < 8 ; j+=2 )
         {
             if( sync == 0xaaaaaaab )
             {
@@ -36,9 +35,10 @@ bool pkt_remove_preamble( uint8_t* pkt, int* pkt_len_ptr )
                 *pkt_len_ptr = nl;
                 return( true );
             }
-            sync <<= 1;
-            sync |= ( byte & 1 );          // start with oldest bit (LSB was transmitted first)
-            byte >>= 1;
+            sync <<= 2;
+            sync |= ( byte & 1 ) << 1;
+            sync |= ( byte & 2 ) >> 1;
+            byte >>= 2;
         }
     }
     return( false );
