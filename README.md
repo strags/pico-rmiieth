@@ -1,7 +1,7 @@
 # pico-rmiieth
 100Mbit/sec RMII interface for Raspberry Pi Pico
 
-Should work with most off-the-shelf LAN8720 modules.
+Should work with most off-the-shelf LAN8720 modules. (Just google "Amazon LAN8720" to find a bunch of near-identical compatible modules).
 
 
 ## Usage
@@ -118,4 +118,8 @@ The LAN8720 module is capable of being assigned 32 different addresses. The defa
         }
     }
 ```
+
+### Notes
+
+In order to receive and transmit clocked packet data with sufficient accuracy, it's necessary to overclock the Pico to 250MHz. This has been absolutely fine with every Pico I've tested it with, but of course YMMV.
 
