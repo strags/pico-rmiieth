@@ -25,6 +25,8 @@
 #include "lwip/acd.h"
 #include "netif/ethernet.h"
 #include "lwip/opt.h"
+#include "lwip/dhcp.h"
+#include "lwip/prot/dhcp.h"
 #include "lwip/timeouts.h"
 #include "lwip/apps/httpd.h"
 #include "pkt_utils.h"
@@ -280,6 +282,7 @@ void main_lwip( rmiieth_config* cfg )
     static struct netif rmiieth_netif;
     static struct ethernetif rmiieth_ethernetif;
     struct netif* nif;
+    u8_t prevDHCPState = 0;
 
     lwip_init();
 
@@ -310,6 +313,22 @@ void main_lwip( rmiieth_config* cfg )
             {
                 uint32_t v = rmiieth_md_readreg( cfg, RMII_REG_BASIC_STATUS );
                 printf( "%08x\n", v );
+            }
+        }
+
+        // show DHCP status
+        struct dhcp* dd = netif_dhcp_data( &rmiieth_netif );
+        if( dd->state != prevDHCPState )
+        {
+            printf( "DHCP State goes from %d to %d\n", prevDHCPState, dd->state );
+            prevDHCPState = dd->state;
+            if( dd->state == DHCP_STATE_BOUND )
+            {
+                char    tmp[ 256 ];
+                printf( " Got address: \n" );
+                printf( "   IP     : %s\n", ipaddr_ntoa_r( &dd->offered_ip_addr, tmp, sizeof( tmp ) ) );
+                printf( "   Subnet : %s\n", ipaddr_ntoa_r( &dd->offered_sn_mask, tmp, sizeof( tmp ) ) );
+                printf( "   GW     : %s\n", ipaddr_ntoa_r( &dd->offered_gw_addr, tmp, sizeof( tmp ) ) );
             }
         }
 
