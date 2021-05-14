@@ -59,8 +59,8 @@
 #define LWIP_ETHERNET                   1
 #define LWIP_IPV4                       1
 #define LWIP_IPV6                       0
-#define LWIP_ACD                        1
-
+#define LWIP_ACD                        0
+#define LWIP_DHCP_DOES_ACD_CHECK	0
 
 #if 0
 #define LWIP_DEBUG 1
