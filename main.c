@@ -7,6 +7,10 @@
 #include "pkt_utils.h"
 #include "hardware/pio.h"
 #include "hardware/dma.h"
+#include "hardware/pll.h"
+#include "hardware/clocks.h"
+#include "hardware/structs/pll.h"
+#include "hardware/structs/clocks.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "lwip/opt.h"
