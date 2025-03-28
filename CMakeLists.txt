@@ -21,5 +21,5 @@ pico_generate_pio_header(rmiieth ${CMAKE_CURRENT_LIST_DIR}/rmii_ext_clk.pio)
 
 target_include_directories(rmiieth PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
-target_link_libraries(rmiieth PRIVATE pico_stdlib hardware_pio hardware_dma lwip)
+target_link_libraries(rmiieth PRIVATE pico_stdlib hardware_pio hardware_dma pico_lwip pico_lwip_nosys pico_lwip_http)
 pico_add_extra_outputs(rmiieth)

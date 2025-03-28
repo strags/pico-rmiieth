@@ -151,8 +151,8 @@ void rmiieth_init( rmiieth_config* cfg )
     // initialize the clk program
     //
 
-    cfg->clk_offset = pio_add_program( cfg->pio, &clk_program );
-    cfg->clk_config = clk_program_get_default_config( cfg->clk_offset );
+    cfg->clk_offset = pio_add_program( cfg->pio, &eth_clk_program );
+    cfg->clk_config = eth_clk_program_get_default_config( cfg->clk_offset );
     sm_config_set_in_pins( &cfg->clk_config, cfg->pin_clk );
     pio_sm_set_consecutive_pindirs( cfg->pio, cfg->clk_sm, cfg->pin_clk, 1, false );
     pio_sm_init( cfg->pio, cfg->clk_sm, cfg->clk_offset, &cfg->clk_config );
@@ -162,8 +162,8 @@ void rmiieth_init( rmiieth_config* cfg )
     // init the RX program
     //
 
-    cfg->rx_offset = pio_add_program( cfg->pio, &rx_program );
-    cfg->rx_config = rx_program_get_default_config( cfg->rx_offset );
+    cfg->rx_offset = pio_add_program( cfg->pio, &eth_rx_program );
+    cfg->rx_config = eth_rx_program_get_default_config( cfg->rx_offset );
     sm_config_set_in_pins( &cfg->rx_config, cfg->pin_rx_base );
     sm_config_set_in_shift( &cfg->rx_config, true, true, 32 );
     sm_config_set_jmp_pin( &cfg->rx_config, cfg->pin_rx_valid );
@@ -193,8 +193,8 @@ void rmiieth_init( rmiieth_config* cfg )
     // init the TX program
     //
 
-    cfg->tx_offset = pio_add_program( cfg->pio, &tx_program );
-    cfg->tx_config = tx_program_get_default_config( cfg->tx_offset );
+    cfg->tx_offset = pio_add_program( cfg->pio, &eth_tx_program );
+    cfg->tx_config = eth_tx_program_get_default_config( cfg->tx_offset );
     sm_config_set_out_pins( &cfg->tx_config, cfg->pin_tx_base, 2 );
     sm_config_set_out_shift( &cfg->tx_config, true, true, 32 );
     sm_config_set_set_pins( &cfg->tx_config, cfg->pin_tx_base, 2 );

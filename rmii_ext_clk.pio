@@ -12,7 +12,7 @@
 ;
 ;----------------------------------------------------------------------------------------------------
 
-.program clk
+.program eth_clk
 .wrap_target
         wait    0 pin 0
         irq     4
@@ -29,7 +29,7 @@
 ;
 ;----------------------------------------------------------------------------------------------------
 
-.program rx
+.program eth_rx
 
         ; when this finishes, we'll flush 32 more bits of data
         ; to hopefully ensure we got everything...
@@ -64,7 +64,7 @@ halt:   jmp     halt
 ;
 ;----------------------------------------------------------------------------------------------------
 
-.program tx
+.program eth_tx
 .side_set 1 opt
 .wrap_target
         nop     side 0                          ; ensure TX_EN is low

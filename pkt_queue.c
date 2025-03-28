@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "pico/platform.h"
+#include "pico.h"
 
 void pkt_queue_init( pkt_queue* pq, uint8_t* data, int32_t size )
 {
