@@ -58,6 +58,7 @@ The RMII module requires 9 pins to be connected to the Pico:
 * Clock
 
     50MHz refclk from the RMII module.
+    Could be any of gpio 20, 22, 12 or 14.
 
 * TX Pins
 
@@ -65,7 +66,7 @@ The RMII module requires 9 pins to be connected to the Pico:
         * TX1
         * TX_EN     (pin_tx_valid)
 
-    The TX0 and TX1 pins must be adjacent.
+    The TX0 and TX1 pins must be adjacent and in order (PIN_TX1 = PIN_TX0 + 1).
 
 * RX Pins
 
@@ -73,7 +74,7 @@ The RMII module requires 9 pins to be connected to the Pico:
         * RX1
         * CRS       (pin_rx_valid)
 
-    The RX0 and RX1 pins must be adjacent.
+    The RX0 and RX1 pins must be adjacent and in order (PIN_RX1 = PIN_RX0 + 1).
     
 ### Software configuration
 
